@@ -1,6 +1,5 @@
-// To parse this JSON data, do
-//
-//     final surah = surahFromJson(jsonString);
+// API URL : https://api.quran.gading.dev/surah/${number of surah}
+// Get detail surah in Al-Quran
 
 import 'dart:convert';
 
