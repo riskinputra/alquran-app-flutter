@@ -10,7 +10,10 @@ const appOrange = Color(0xFFE67848);
 ThemeData appLight = ThemeData(
     primaryColor: appPurple,
     scaffoldBackgroundColor: Colors.white,
-    appBarTheme: AppBarTheme(backgroundColor: appPurple));
+    appBarTheme: AppBarTheme(backgroundColor: appPurple),
+    textTheme: TextTheme(
+        bodyText1: TextStyle(color: appPurpleDark1),
+        bodyText2: TextStyle(color: appPurpleDark1)));
 
 ThemeData appDark = ThemeData(
     primaryColor: appWhite,
