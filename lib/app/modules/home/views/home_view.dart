@@ -139,17 +139,57 @@ class HomeView extends GetView<HomeController> {
                                       Get.toNamed(Routes.DETAIL_SURAH,
                                           arguments: surah)
                                     },
-                                leading: CircleAvatar(
-                                  child: Text("${surah.number}"),
+                                leading: Container(
+                                  height: 35,
+                                  width: 35,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              "assets/images/octa-light.png"))),
+                                  child: Center(
+                                      child: Text(
+                                    "${surah.number}",
+                                    style: TextStyle(color: appPurpleDark1),
+                                  )),
                                 ),
                                 title: Text(
-                                    "${surah.name?.transliteration?.id ?? '-'}"),
+                                    "${surah.name?.transliteration?.id ?? '-'}",
+                                    style: TextStyle(
+                                        color: appPurpleDark1,
+                                        fontWeight: FontWeight.bold)),
                                 subtitle: Text(
-                                    "(${surah.name?.translation?.id ?? '-'}) | ${surah.numberOfVerses} Ayat | ${surah.revelation?.id ?? '-'}"),
-                                trailing: Text("${surah.name?.short ?? '-'}"));
+                                  "(${surah.name?.translation?.id ?? '-'}) | ${surah.numberOfVerses} Ayat | ${surah.revelation?.id ?? '-'}",
+                                ),
+                                trailing: Text("${surah.name?.short ?? '-'}",
+                                    style: TextStyle(color: appPurpleDark1)));
                           });
                     }),
-                Text('data'),
+                ListView.builder(
+                    itemCount: 30,
+                    itemBuilder: (context, index) {
+                      // Surah surah = snapshot.data![index];
+
+                      return ListTile(
+                        onTap: () {},
+                        leading: Container(
+                          height: 35,
+                          width: 35,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage(
+                                      "assets/images/octa-light.png"))),
+                          child: Center(
+                              child: Text(
+                            "${index + 1}",
+                            style: TextStyle(color: appPurpleDark1),
+                          )),
+                        ),
+                        title: Text("Juz ${index + 1}",
+                            style: TextStyle(
+                                color: appPurpleDark1,
+                                fontWeight: FontWeight.bold)),
+                      );
+                    }),
                 Text('data')
               ]))
             ],
