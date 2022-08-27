@@ -23,7 +23,7 @@ class HomeView extends GetView<HomeController> {
       body: DefaultTabController(
         length: 3,
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -106,7 +106,7 @@ class HomeView extends GetView<HomeController> {
               SizedBox(height: 20),
               TabBar(
                   indicatorColor: appPurpleDark1,
-                  labelColor: appPurpleDark1,
+                  labelColor: Get.isDarkMode ? appWhite : appPurpleDark1,
                   unselectedLabelColor: Colors.grey,
                   labelStyle: TextStyle(fontWeight: FontWeight.bold),
                   tabs: [
@@ -126,7 +126,12 @@ class HomeView extends GetView<HomeController> {
                       }
                       if (!snapshot.hasData) {
                         return Center(
-                          child: Text("Tidak ada data"),
+                          child: Text(
+                            "Tidak ada data",
+                            style: TextStyle(
+                                color:
+                                    Get.isDarkMode ? appWhite : appPurpleDark1),
+                          ),
                         );
                       }
                       return ListView.builder(
@@ -140,8 +145,8 @@ class HomeView extends GetView<HomeController> {
                                           arguments: surah)
                                     },
                                 leading: Container(
-                                  height: 35,
-                                  width: 35,
+                                  height: 45,
+                                  width: 45,
                                   decoration: BoxDecoration(
                                       image: DecorationImage(
                                           image: AssetImage(
@@ -149,19 +154,27 @@ class HomeView extends GetView<HomeController> {
                                   child: Center(
                                       child: Text(
                                     "${surah.number}",
-                                    style: TextStyle(color: appPurpleDark1),
+                                    style: TextStyle(
+                                        color: Get.isDarkMode
+                                            ? appWhite
+                                            : appPurpleDark1),
                                   )),
                                 ),
                                 title: Text(
                                     "${surah.name?.transliteration?.id ?? '-'}",
                                     style: TextStyle(
-                                        color: appPurpleDark1,
+                                        color: Get.isDarkMode
+                                            ? appWhite
+                                            : appPurpleDark1,
                                         fontWeight: FontWeight.bold)),
                                 subtitle: Text(
                                   "(${surah.name?.translation?.id ?? '-'}) | ${surah.numberOfVerses} Ayat | ${surah.revelation?.id ?? '-'}",
                                 ),
                                 trailing: Text("${surah.name?.short ?? '-'}",
-                                    style: TextStyle(color: appPurpleDark1)));
+                                    style: TextStyle(
+                                        color: Get.isDarkMode
+                                            ? appWhite
+                                            : appPurpleDark1)));
                           });
                     }),
                 ListView.builder(
@@ -176,8 +189,9 @@ class HomeView extends GetView<HomeController> {
                           width: 35,
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                                  image: AssetImage(
-                                      "assets/images/octa-light.png"))),
+                                  image: AssetImage(Get.isDarkMode
+                                      ? "assets/images/octa-dark.png"
+                                      : "assets/images/octa-light.png"))),
                           child: Center(
                               child: Text(
                             "${index + 1}",
