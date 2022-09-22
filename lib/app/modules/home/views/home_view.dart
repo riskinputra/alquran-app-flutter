@@ -1,4 +1,5 @@
 import 'package:alquran/app/constants/color.dart';
+import 'package:alquran/app/data/models/juz.dart' as juz;
 import 'package:alquran/app/data/models/surah.dart';
 import 'package:alquran/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
@@ -169,29 +170,64 @@ class HomeView extends GetView<HomeController> {
                                 trailing: Text("${surah.name?.short ?? '-'}"));
                           });
                     }),
-                ListView.builder(
-                    itemCount: 30,
-                    itemBuilder: (context, index) {
-                      // Surah surah = snapshot.data![index];
-
-                      return ListTile(
-                        onTap: () {},
-                        leading: Obx(() => Container(
-                              height: 35,
-                              width: 35,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage(controller.isDark.isTrue
-                                          ? "assets/images/octa-dark.png"
-                                          : "assets/images/octa-light.png"))),
-                              child: Center(
-                                  child: Text(
-                                "${index + 1}",
-                              )),
-                            )),
-                        title: Text("Juz ${index + 1}",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                      );
+                FutureBuilder<List<juz.Juz>>(
+                    future: controller.getAllJuz(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: Text(
+                            "Tidak ada data",
+                            style: TextStyle(
+                                color: controller.isDark.isTrue
+                                    ? appWhite
+                                    : appPurpleDark1),
+                          ),
+                        );
+                      }
+                      return ListView.builder(
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            juz.Juz detailJuz = snapshot.data![index];
+                            return ListTile(
+                              onTap: () {
+                                Get.toNamed(Routes.DETAIL_JUZ,
+                                    arguments: detailJuz);
+                              },
+                              leading: Obx(() => Container(
+                                    height: 35,
+                                    width: 35,
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: AssetImage(controller
+                                                    .isDark.isTrue
+                                                ? "assets/images/octa-dark.png"
+                                                : "assets/images/octa-light.png"))),
+                                    child: Center(
+                                        child: Text(
+                                      "${index + 1}",
+                                    )),
+                                  )),
+                              title: Text("Juz ${index + 1}"),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "Mulai dari ${detailJuz.juzStartSurahNumber}",
+                                    style: TextStyle(color: Colors.grey[500]),
+                                  ),
+                                  Text("Sampai ${detailJuz.juzEndInfo}",
+                                      style:
+                                          TextStyle(color: Colors.grey[500])),
+                                ],
+                              ),
+                            );
+                          });
                     }),
                 Text('data')
               ]))
