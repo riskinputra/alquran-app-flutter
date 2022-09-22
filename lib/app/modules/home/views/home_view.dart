@@ -10,9 +10,7 @@ import '../controllers/home_controller.dart';
 class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
-    if (Get.isDarkMode) {
-      controller.isDark.value = true;
-    }
+    controller.isDark.value = Get.isDarkMode;
     return Scaffold(
       appBar: AppBar(
         title: Text('Al Quran Apps'),

@@ -1,3 +1,4 @@
+import 'package:alquran/app/constants/color.dart';
 import 'package:alquran/app/data/models/detail_surah.dart' as detail;
 import 'package:alquran/app/data/models/surah.dart';
 import 'package:flutter/material.dart';
@@ -19,29 +20,68 @@ class DetailSurahView extends GetView<DetailSurahController> {
         body: ListView(
           padding: EdgeInsets.all(20),
           children: [
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    Text(
-                      "${surah.name?.transliteration?.id?.toUpperCase() ?? '-'}",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            GestureDetector(
+              onTap: (() => Get.dialog(Dialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Container(
+                      padding: EdgeInsets.all(25),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Get.isDarkMode
+                              ? appPurpleLight2.withOpacity(0.3)
+                              : appWhite),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Tafsir ${surah.name?.transliteration?.id ?? '-'}",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            "${surah.tafsir?.id ?? 'Tidak ada tafsir pada surah ini.'}",
+                            textAlign: TextAlign.justify,
+                          )
+                        ],
+                      ),
                     ),
-                    Text(
-                      "( ${surah.name?.translation?.id?.toUpperCase() ?? '-'} )",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "${surah.numberOfVerses ?? '-'} | ${surah.revelation?.id ?? '-'}",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ],
+                  ))),
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    gradient: LinearGradient(
+                        colors: [appPurpleLight1, appPurpleDark1])),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Text(
+                        "${surah.name?.transliteration?.id?.toUpperCase() ?? '-'}",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: appWhite),
+                      ),
+                      Text(
+                        "( ${surah.name?.translation?.id?.toUpperCase() ?? '-'} )",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: appWhite),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "${surah.numberOfVerses ?? '-'} | ${surah.revelation?.id ?? '-'}",
+                        style: TextStyle(fontSize: 16, color: appWhite),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -73,7 +113,10 @@ class DetailSurahView extends GetView<DetailSurahController> {
                       return Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Card(
+                            Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: appPurpleLight2.withOpacity(0.3)),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 5, horizontal: 10),
@@ -81,7 +124,20 @@ class DetailSurahView extends GetView<DetailSurahController> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    CircleAvatar(child: Text("${index + 1}")),
+                                    Container(
+                                      height: 35,
+                                      width: 35,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: AssetImage(Get.isDarkMode
+                                                  ? "assets/images/octa-dark.png"
+                                                  : "assets/images/octa-light.png"),
+                                              fit: BoxFit.contain)),
+                                      child: Center(
+                                          child: Text(
+                                        "${index + 1}",
+                                      )),
+                                    ),
                                     Row(
                                       children: [
                                         IconButton(
