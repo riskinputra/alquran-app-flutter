@@ -10,6 +10,9 @@ import '../controllers/home_controller.dart';
 class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
+    if (Get.isDarkMode) {
+      controller.isDark.value = true;
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('Al Quran Apps'),
@@ -105,8 +108,6 @@ class HomeView extends GetView<HomeController> {
               ),
               SizedBox(height: 20),
               TabBar(
-                  indicatorColor: appPurpleDark1,
-                  labelColor: Get.isDarkMode ? appWhite : appPurpleDark1,
                   unselectedLabelColor: Colors.grey,
                   labelStyle: TextStyle(fontWeight: FontWeight.bold),
                   tabs: [
@@ -129,8 +130,9 @@ class HomeView extends GetView<HomeController> {
                           child: Text(
                             "Tidak ada data",
                             style: TextStyle(
-                                color:
-                                    Get.isDarkMode ? appWhite : appPurpleDark1),
+                                color: controller.isDark.isTrue
+                                    ? appWhite
+                                    : appPurpleDark1),
                           ),
                         );
                       }
@@ -144,37 +146,29 @@ class HomeView extends GetView<HomeController> {
                                       Get.toNamed(Routes.DETAIL_SURAH,
                                           arguments: surah)
                                     },
-                                leading: Container(
-                                  height: 45,
-                                  width: 45,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              "assets/images/octa-light.png"))),
-                                  child: Center(
-                                      child: Text(
-                                    "${surah.number}",
-                                    style: TextStyle(
-                                        color: Get.isDarkMode
-                                            ? appWhite
-                                            : appPurpleDark1),
-                                  )),
-                                ),
+                                leading: Obx(() => Container(
+                                      height: 45,
+                                      width: 45,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: AssetImage(controller
+                                                      .isDark.isTrue
+                                                  ? "assets/images/octa-dark.png"
+                                                  : "assets/images/octa-light.png"))),
+                                      child: Center(
+                                          child: Text(
+                                        "${surah.number}",
+                                      )),
+                                    )),
                                 title: Text(
                                     "${surah.name?.transliteration?.id ?? '-'}",
-                                    style: TextStyle(
-                                        color: Get.isDarkMode
-                                            ? appWhite
-                                            : appPurpleDark1,
-                                        fontWeight: FontWeight.bold)),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
                                 subtitle: Text(
                                   "(${surah.name?.translation?.id ?? '-'}) | ${surah.numberOfVerses} Ayat | ${surah.revelation?.id ?? '-'}",
+                                  style: TextStyle(color: Colors.grey[500]),
                                 ),
-                                trailing: Text("${surah.name?.short ?? '-'}",
-                                    style: TextStyle(
-                                        color: Get.isDarkMode
-                                            ? appWhite
-                                            : appPurpleDark1)));
+                                trailing: Text("${surah.name?.short ?? '-'}"));
                           });
                     }),
                 ListView.builder(
@@ -184,30 +178,38 @@ class HomeView extends GetView<HomeController> {
 
                       return ListTile(
                         onTap: () {},
-                        leading: Container(
-                          height: 35,
-                          width: 35,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage(Get.isDarkMode
-                                      ? "assets/images/octa-dark.png"
-                                      : "assets/images/octa-light.png"))),
-                          child: Center(
-                              child: Text(
-                            "${index + 1}",
-                            style: TextStyle(color: appPurpleDark1),
-                          )),
-                        ),
+                        leading: Obx(() => Container(
+                              height: 35,
+                              width: 35,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage(controller.isDark.isTrue
+                                          ? "assets/images/octa-dark.png"
+                                          : "assets/images/octa-light.png"))),
+                              child: Center(
+                                  child: Text(
+                                "${index + 1}",
+                              )),
+                            )),
                         title: Text("Juz ${index + 1}",
-                            style: TextStyle(
-                                color: appPurpleDark1,
-                                fontWeight: FontWeight.bold)),
+                            style: TextStyle(fontWeight: FontWeight.bold)),
                       );
                     }),
                 Text('data')
               ]))
             ],
           ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.isDarkMode
+              ? Get.changeTheme(themeLight)
+              : Get.changeTheme(themeDark);
+          controller.isDark.toggle();
+        },
+        child: Icon(
+          Icons.color_lens,
         ),
       ),
     );
